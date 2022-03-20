@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>ПНИПУ Java | Вариант 16</title>
 </head>
 <body>
-<p>Привет, мир!</p>
+<div th:each="person : ${people}">
+    <p th:text="${person.getId + ', ' + person.getSurname() + ', ' + person.getSalary() + ', ' + person.getPosition() + ', ' + person.getDayOfBirth() + '.' + person.getMonthOfBirth() + '.' + person.getYearOfBirth()}" />
+</div>
 </body>
 </html>

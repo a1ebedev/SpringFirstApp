@@ -1,6 +1,7 @@
 package ru.leqsle.models;
 
 public class Person {
+    private int id;
     private String surname;
     private int salary;
     private String position;
@@ -17,6 +18,14 @@ public class Person {
         this.dayOfBirth = dayOfBirth;
         this.monthOfBirth = monthOfBirth;
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSurname() {
