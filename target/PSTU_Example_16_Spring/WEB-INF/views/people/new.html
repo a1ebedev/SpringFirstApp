@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание позиции</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/people}" th:object="${person}">
+    <label for="surname">Введите фамилию: </label>
+    <input type="text" th:field="*{surname}" id="surname"/>
+    <br/>
+    <label for="salary">Введите оклад: </label>
+    <input type="text" th:field="*{salary}" id="salary"/>
+    <br/>
+    <label for="position">Введите должность: </label>
+    <input type="text" th:field="*{position}" id="position"/>
+    <br/>
+    <p>Введите дату рождения:</p>
+    <br/>
+    <label for="dayofbirth">День:</label>
+    <input type="text" th:field="*{dayOfBirth}" id="dayofbirth"/>
+    <label for="monthofbirth">Месяц:</label>
+    <input type="text" th:field="*{monthOfBirth}" id="monthofbirth"/>
+    <label for="yearofbirth">Год: </label>
+    <input type="text" th:field="*{yearOfBirth}" id="yearofbirth"/>
+    <br/>
+    <input type="submit" value="Добавить"/>
+</form>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>ПНИПУ Java | Вариант 16</title>
@@ -8,5 +8,7 @@
 <div th:each="person : ${people}">
     <p th:text="${person.getId + ', ' + person.getSurname() + ', ' + person.getSalary() + ', ' + person.getPosition() + ', ' + person.getDayOfBirth() + '.' + person.getMonthOfBirth() + '.' + person.getYearOfBirth()}" />
 </div>
+<br/>
+<a href="people/new">Добавить позицию</a>
 </body>
 </html>

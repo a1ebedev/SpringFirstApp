@@ -62,4 +62,10 @@ public class PersonDAO {
 
         return people;
     }
+
+    public void save(Person person) throws SQLException {
+        Statement statement = connection.createStatement();
+        String SQL = "INSERT INTO people VALUES(" + 1 + ",'" + person.getSurname() + "'," + person.getSalary() + ",'" + person.getPosition() + "'," + person.getDayOfBirth() + "," + person.getMonthOfBirth() + "," + person.getYearOfBirth() + ")";
+        statement.execute(SQL);
+    }
 }
