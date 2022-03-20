@@ -3,10 +3,7 @@ package ru.leqsle.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.leqsle.dao.PersonDAO;
 import ru.leqsle.models.Person;
 
@@ -28,6 +25,12 @@ public class PeopleController {
         return "people/index";
     }
 
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") int id, Model model) throws SQLException {
+        model.addAttribute("person", personDAO.show(id));
+        return "people/show";
+    }
+
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("person") Person person) {
         return "people/new";
@@ -36,6 +39,24 @@ public class PeopleController {
     @PostMapping
     public String create(@ModelAttribute("person") Person person) throws SQLException {
         personDAO.save(person);
+        return "redirect:/people";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id) throws SQLException {
+        model.addAttribute("person", personDAO.show(id));
+        return "people/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("person") Person person, @PathVariable("id") int id) throws SQLException {
+        personDAO.update(id, person);
+        return "redirect:/people";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id) throws SQLException {
+        personDAO.delete(id);
         return "redirect:/people";
     }
 }

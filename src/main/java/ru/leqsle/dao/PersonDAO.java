@@ -1,71 +1,45 @@
 package ru.leqsle.dao;
 
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.leqsle.models.Person;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class PersonDAO {
-    private static final String URL = "jdbc:postgresql://localhost:5432/Person";
-    private static final String USERNAME = "leqsle";
-    private static final String PASSWORD = "123";
+    private final JdbcTemplate jdbcTemplate;
 
-    private static Connection connection;
-
-    static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    @Autowired
+    public PersonDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    static {
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
+    public List<Person> index() {
+        return jdbcTemplate.query("SELECT * FROM people", new BeanPropertyRowMapper(Person.class));
     }
 
-    public List<Person> index() throws SQLException {
-        List<Person> people = new ArrayList<>();
-
-        Statement statement = connection.createStatement();
-        String SQL = "SELECT * FROM people";
-
-        ResultSet resultSet = statement.executeQuery(SQL);
-
-        while (resultSet.next()) {
-            Person person = new Person();
-
-            person.setId(resultSet.getInt("id"));
-            person.setSurname(resultSet.getString("surname"));
-            person.setSalary(resultSet.getInt("salary"));
-            person.setPosition(resultSet.getString("position"));
-            person.setDayOfBirth(resultSet.getInt("dayofbirth"));
-            person.setMonthOfBirth(resultSet.getInt("monthofbirth"));
-            person.setYearOfBirth(resultSet.getInt("yearofbirth"));
-
-            people.add(person);
-        }
-
-        return people;
+    public void save(Person person) {
+        jdbcTemplate.update("INSERT INTO people VALUES(1, ?, ?, ?, ?, ?, ?)", person.getSurname(), person.getSalary(),
+                person.getPosition(), person.getDayOfBirth(), person.getMonthOfBirth(), person.getYearOfBirth());
     }
 
-    public void save(Person person) throws SQLException {
-        Statement statement = connection.createStatement();
-        String SQL = "INSERT INTO people VALUES(" + 1 + ",'" + person.getSurname() + "'," + person.getSalary() + ",'" + person.getPosition() + "'," + person.getDayOfBirth() + "," + person.getMonthOfBirth() + "," + person.getYearOfBirth() + ")";
-        statement.execute(SQL);
+    public Person show(int id) {
+        return jdbcTemplate.query("SELECT * FROM people WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny().orElse(null);
+    }
+
+    public void update(int id, Person updatedPerson) {
+        jdbcTemplate.update("UPDATE people SET surname=?, salary=?, position=?, " +
+                        "dayofbirth=?, monthofbirth=?, yearofbirth=? WHERE id=?", updatedPerson.getSurname(), updatedPerson.getSalary(),
+                updatedPerson.getPosition(), updatedPerson.getDayOfBirth(), updatedPerson.getMonthOfBirth(),
+                updatedPerson.getYearOfBirth(), id);
+    }
+
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM people WHERE id=?", id);
     }
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменение</title>
+</head>
+<body>
+<form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
+    <label for="surname">Фамилия: </label>
+    <input type="text" th:field="*{surname}" id="surname"/>
+    <br/>
+    <label for="salary">Оклад: </label>
+    <input type="text" th:field="*{salary}" id="salary"/>
+    <br/>
+    <label for="position">Должность: </label>
+    <input type="text" th:field="*{position}" id="position"/>
+    <br/>
+    <p>Дата рождения:</p>
+    <br/>
+    <label for="dayofbirth">День:</label>
+    <input type="text" th:field="*{dayOfBirth}" id="dayofbirth"/>
+    <label for="monthofbirth">Месяц:</label>
+    <input type="text" th:field="*{monthOfBirth}" id="monthofbirth"/>
+    <label for="yearofbirth">Год: </label>
+    <input type="text" th:field="*{yearOfBirth}" id="yearofbirth"/>
+    <br/>
+    <input type="submit" value="Изменить"/>
+</form>
+</body>
+</html>

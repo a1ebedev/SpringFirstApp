@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:each="person : ${people}">
-    <p th:text="${person.getId + ', ' + person.getSurname() + ', ' + person.getSalary() + ', ' + person.getPosition() + ', ' + person.getDayOfBirth() + '.' + person.getMonthOfBirth() + '.' + person.getYearOfBirth()}" />
+    <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getId + ', ' + person.getSurname() + ', ' + person.getSalary() + ', ' + person.getPosition() + ', ' + person.getDayOfBirth() + '.' + person.getMonthOfBirth() + '.' + person.getYearOfBirth()}" />
 </div>
 <br/>
 <a href="people/new">Добавить позицию</a>
